@@ -1,4 +1,4 @@
-import { useState, useReducer, useEffect } from 'react';
+import { useState, useReducer, useEffect, useCallback } from 'react';
 import { apiGet } from '../misc/config';
 
 
@@ -43,10 +43,10 @@ export function useLastQuery(key = 'lastQuery') {
         return persisted ? JSON.parse(persisted) : '';
     });
 
-    const setPersistedInput = newState => {
+    const setPersistedInput = useCallback(newState => {
         setInput(newState);
         sessionStorage.setItem(key, JSON.stringify(newState));
-    };
+    }, [key]);
 
     return [input, setPersistedInput];
 }
